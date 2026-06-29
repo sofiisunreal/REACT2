@@ -93,22 +93,79 @@ const GetEmployees = () => {
             {employees.map((emp) => (
               <tr key={emp.id} className='hover:bg-gray50/50'>
                 <td>#{emp.id}</td>
-                <td>{emp.first_name} {emp.last_name}</td>
-                <td>{emp.email}</td>
+                <td>
+                  {editingId === emp.id ? (
+                    <>
+                      <input
+                        type="text"
+                        value={editFirstName}
+                        onChange={(e) => setEditFirstName(e.target.value)}
+                        className="border rounded px-2 py-1 w-24 mr-2"
+                      />
+                      <input
+                        type="text"
+                        value={editLastName}
+                        onChange={(e) => setEditLastName(e.target.value)}
+                        className="border rounded px-2 py-1 w-24"
+                      />
+                    </>
+                  ) : (
+                    `${emp.first_name} ${emp.last_name}`
+                  )}
+                </td>
+                <td>
+                  {editingId === emp.id ? (
+                    <input
+                      type="email"
+                      value={editEmail}
+                      onChange={(e) => setEditEmail(e.target.value)}
+                      className="border rounded px-2 py-1 w-full"
+                    />
+                  ) : (
+                    emp.email
+                  )}
+                </td>
                 <td>{emp.department.name}</td>
                 <td className="text-center">
-                  <div className="inline-flex gap-2">
-                    <button onClick={() => startEdit(emp)} className="rounded-lg bg-indigo-50 px-3 mt-2 mb-2 py-1 text-xs">
-                      <i className="bi bi-pencil-square me-1"></i>
-                      Edit
-                    </button>
+                  <td className="text-center">
+                    <div className="inline-flex gap-2">
+                      {editingId === emp.id ? (
+                        <>
+                          <button
+                            onClick={updateEmployee}
+                            className="rounded-lg bg-green-100 text-green-700 px-3 mt-2 mb-2 py-1 text-xs"
+                          >
+                            Save
+                          </button>
 
-                    <button onClick={() => handleDelete(emp.id)} className="rounded-lg bg-red-50 text-red-600 mb-2 mt-2 px-3 py-1 text-xs">
-                      <i className="bi bi-trash3 me-1"></i>
-                      Delete
-                    </button>
-                  </div>
-                </td>
+                          <button
+                            onClick={() => setEditingId(null)}
+                            className="rounded-lg bg-gray-100 px-3 mt-2 mb-2 py-1 text-xs"
+                          >
+                            Cancel
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            onClick={() => startEdit(emp)}
+                            className="rounded-lg bg-indigo-50 px-3 mt-2 mb-2 py-1 text-xs"
+                          >
+                            <i className="bi bi-pencil-square me-1"></i>
+                            Edit
+                          </button>
+
+                          <button
+                            onClick={() => handleDelete(emp.id)}
+                            className="rounded-lg bg-red-50 text-red-600 mb-2 mt-2 px-3 py-1 text-xs"
+                          >
+                            <i className="bi bi-trash3 me-1"></i>
+                            Delete
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </td>                </td>
               </tr>
             ))}
 
